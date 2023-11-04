@@ -2,7 +2,7 @@ package screens
 
 import models.Archive
 
-class ArchiveList : Screen() {
+class ArchiveList : Screen {
     private var list: MutableList<Archive> = mutableListOf<Archive>()
 
     override fun showMenu() {
@@ -15,11 +15,11 @@ class ArchiveList : Screen() {
     fun createArchive() {
         println("Введите название архива:")
 
-        var name: String? = ""
+        var name: String = ""
 
-        while (name!!.isEmpty()) {
-            name = readLine()
-            if (name == "" || name == null) {
+        while (name.isBlank()) {
+            name = readLine().toString()
+            if (name.isBlank()) {
                 println("Название архива не может быть пустым")
             }
         }
@@ -30,7 +30,7 @@ class ArchiveList : Screen() {
     fun showArchives() {
         while (true) {
             printArchivesMenu()
-            val input = inputHelper.readInput()
+            val input = InputHelper.readInput()
             if (input in 1..list.size) {
                 val archive = list[input - 1]
                 val screen = NotesList(archive)
@@ -44,12 +44,10 @@ class ArchiveList : Screen() {
     }
 
     private fun printArchivesMenu() {
-        var index = 1
-        for (i in list) {
-            println("$index. ${i.name}")
-            index++
+        list.forEachIndexed { index, element ->
+            println("${index + 1}. ${element.name}")
         }
-        println("${list.size + 1}. Выход")
+        println("${list.size + 1}. Назад")
         print("Выберите архив или введите ${list.size + 1} для выхода: ")
     }
 }

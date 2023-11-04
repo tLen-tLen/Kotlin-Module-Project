@@ -3,7 +3,7 @@ package screens
 import models.Archive
 import models.Note
 
-class NotesList(val archive: Archive): Screen() {
+class NotesList(val archive: Archive): Screen {
 
      override fun showMenu() {
         println("Архив '${archive.name}':")
@@ -17,7 +17,7 @@ class NotesList(val archive: Archive): Screen() {
         while (true) {
             showMenu()
 
-            when (inputHelper.readInput()) {
+            when (InputHelper.readInput()) {
                 1 -> createNote()
                 2 -> viewNotes()
                 3 -> return
@@ -29,10 +29,10 @@ class NotesList(val archive: Archive): Screen() {
     private fun createNote() {
         println("Введите название заметки:")
         val name = readLine() ?: ""
-        if (name.isNotEmpty()) {
+        if (! name.isBlank()) {
             print("Введите текст заметки: ")
             val text = readLine() ?: ""
-            if (text.isNotEmpty()) {
+            if (! text.isBlank()) {
                 val note = Note(name, text)
                 archive.notes.add(note)
                 println("Заметка '$name' создана")
@@ -52,7 +52,7 @@ class NotesList(val archive: Archive): Screen() {
         println("${archive.notes.size + 1}. Назад")
 
         print("Выберите номер заметки для просмотра или введите ${archive.notes.size + 1} для выхода: ")
-        val input = inputHelper.readInput()
+        val input = InputHelper.readInput()
 
         if (input in 1..archive.notes.size) {
             val note = archive.notes[input - 1]

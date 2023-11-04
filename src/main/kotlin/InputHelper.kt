@@ -1,4 +1,4 @@
-class InputHelper {
+object InputHelper {
     fun readInput(): Int {
         val input = readLine()
         return try {
